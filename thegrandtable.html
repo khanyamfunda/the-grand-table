@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Grand Table – Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1a1208;
+      --surface:   #241a0d;
+      --gold:      #c9972b;
+      --gold-lt:   #e8c06a;
+      --cream:     #f5edd8;
+      --muted:     #8a7a60;
+      --divider:   #3a2d18;
+      --nav-h:     70px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: radial-gradient(ellipse at top, #2e1e06 0%, var(--bg) 65%);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 14px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── STICKY NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: rgba(26, 18, 8, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--divider);
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: transparent;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      color: var(--muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg);
+    }
+
+    .nav-btn .icon { font-size: 1rem; }
+
+    /* ── SECTIONS ── */
+    .menu-section {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 70px 24px 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .section-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      color: var(--gold-lt);
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MENU ITEMS ── */
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--divider);
+      transition: background 0.2s;
+    }
+
+    .menu-item:last-child { border-bottom: none; }
+
+    .item-info { flex: 1; }
+
+    .item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 5px;
+    }
+
+    .item-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .item-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid var(--divider);
+      color: var(--muted);
+    }
+
+    .tag.chef { border-color: var(--gold); color: var(--gold); }
+    .tag.veg  { border-color: #5a9e5a; color: #7ec97e; }
+    .tag.hot  { border-color: #9e3a3a; color: #e07070; }
+
+    .item-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--gold);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-sep {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--divider), transparent);
+      margin: 0 24px;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 50px 20px 40px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      border-top: 1px solid var(--divider);
+      margin-top: 30px;
+    }
+
+    footer span { color: var(--gold); }
+
+    @media (max-width: 500px) {
+      .nav-btn { padding: 9px 14px; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-eyebrow">Est. 1998 &nbsp;·&nbsp; Fine Dining</p>
+  <h1>The Grand Table</h1>
+  <p class="hero-sub">Seasonal ingredients · Crafted with care</p>
+</header>
+
+<!-- STICKY NAV BUTTONS -->
+<nav class="nav" id="mainNav">
+  <a class="nav-btn active" href="#starters">
+    <span class="icon">🥗</span> Starters
+  </a>
+  <a class="nav-btn" href="#main-courses">
+    <span class="icon">🍽️</span> Main Courses
+  </a>
+  <a class="nav-btn" href="#beverages">
+    <span class="icon">🍷</span> Beverages
+  </a>
+  <a class="nav-btn" href="#desserts">
+    <span class="icon">🍮</span> Desserts
+  </a>
+</nav>
+
+<!-- ══════════════════════════════════════
+     STARTERS
+═══════════════════════════════════════ -->
+<section id="starters" class="menu-section">
+  <div class="section-header">
+    <span class="section-icon">🥗</span>
+    <div>
+      <h2 class="section-title">Starters</h2>
+      <p class="section-desc">Light beginnings to awaken the palate</p>
+    </div>
+  </div>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Butternut Velouté</div>
+        <div class="item-desc">Roasted butternut soup with crème fraîche, toasted pumpkin seeds &amp; sage oil</div>
+        <div class="item-tags"><span class="tag veg">Vegetarian</span><span class="tag chef">Chef's Pick</span></div>
+      </div>
+      <div class="item-price">R 95</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Prawn Cocktail</div>
+        <div class="item-desc">Chilled tiger prawns, Marie Rose sauce, gem lettuce, lemon wedge &amp; paprika dust</div>
+        <div class="item-tags"><span class="tag">Seafood</span></div>
+      </div>
+      <div class="item-price">R 130</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Chicken Liver Pâté</div>
+        <div class="item-desc">Smooth pâté with caramelised onion jam, melba toast &amp; micro herbs</div>
+        <div class="item-tags"></div>
+      </div>
+      <div class="item-price">R 110</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Bruschetta Trio</div>
+        <div class="item-desc">Heirloom tomato &amp; basil / mushroom &amp; truffle oil / avocado &amp; feta on sourdough</div>
+        <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      </div>
+      <div class="item-price">R 105</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Spicy Calamari</div>
+        <div class="item-desc">Lightly battered calamari rings with peri-peri aioli &amp; fresh lime</div>
+        <div class="item-tags"><span class="tag hot">Spicy</span><span class="tag">Seafood</span></div>
+      </div>
+      <div class="item-price">R 120</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ══════════════════════════════════════
+     MAIN COURSES
+═══════════════════════════════════════ -->
+<section id="main-courses" class="menu-section">
+  <div class="section-header">
+    <span class="section-icon">🍽️</span>
+    <div>
+      <h2 class="section-title">Main Courses</h2>
+      <p class="section-desc">Hearty mains, expertly prepared</p>
+    </div>
+  </div>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Grilled Sirloin Steak</div>
+        <div class="item-desc">300g grass-fed sirloin, chimichurri, roasted garlic mash &amp; seasonal vegetables</div>
+        <div class="item-tags"><span class="tag chef">Chef's Pick</span></div>
+      </div>
+      <div class="item-price">R 285</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Pan-Seared Salmon</div>
+        <div class="item-desc">Atlantic salmon fillet, lemon butter sauce, wilted spinach &amp; saffron risotto</div>
+        <div class="item-tags"><span class="tag">Seafood</span></div>
+      </div>
+      <div class="item-price">R 255</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Lamb Shank</div>
+        <div class="item-desc">Slow-braised Karoo lamb, red wine jus, creamy polenta &amp; gremolata</div>
+        <div class="item-tags"><span class="tag chef">Chef's Pick</span></div>
+      </div>
+      <div class="item-price">R 295</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mushroom Risotto</div>
+        <div class="item-desc">Arborio rice, mixed wild mushrooms, parmesan &amp; white truffle oil</div>
+        <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      </div>
+      <div class="item-price">R 190</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Chicken Picatta</div>
+        <div class="item-desc">Pan-fried chicken breast, lemon-caper sauce, angel hair pasta &amp; cherry tomatoes</div>
+        <div class="item-tags"></div>
+      </div>
+      <div class="item-price">R 215</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Peri-Peri Prawns</div>
+        <div class="item-desc">Flame-grilled king prawns in house peri-peri marinade, garlic bread &amp; coleslaw</div>
+        <div class="item-tags"><span class="tag hot">Spicy</span><span class="tag">Seafood</span></div>
+      </div>
+      <div class="item-price">R 270</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ══════════════════════════════════════
+     BEVERAGES
+═══════════════════════════════════════ -->
+<section id="beverages" class="menu-section">
+  <div class="section-header">
+    <span class="section-icon">🍷</span>
+    <div>
+      <h2 class="section-title">Beverages</h2>
+      <p class="section-desc">Fine wines, cocktails &amp; non-alcoholic selections</p>
+    </div>
+  </div>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">House Red Wine</div>
+        <div class="item-desc">Stellenbosch Cabernet Sauvignon – bold, dark fruit, smooth tannins</div>
+        <div class="item-tags"><span class="tag">Glass · 175ml</span></div>
+      </div>
+      <div class="item-price">R 75</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">House White Wine</div>
+        <div class="item-desc">Franschhoek Sauvignon Blanc – crisp, citrus notes, dry finish</div>
+        <div class="item-tags"><span class="tag">Glass · 175ml</span></div>
+      </div>
+      <div class="item-price">R 70</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Signature Cocktail – "Sunset Karoo"</div>
+        <div class="item-desc">Amarula, orange juice, cranberry, ice &amp; a dried orange garnish</div>
+        <div class="item-tags"><span class="tag chef">House Special</span></div>
+      </div>
+      <div class="item-price">R 110</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Craft Beer</div>
+        <div class="item-desc">Rotating local selection – ask your server for today's taps</div>
+        <div class="item-tags"></div>
+      </div>
+      <div class="item-price">R 65</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Freshly Squeezed Juices</div>
+        <div class="item-desc">Orange · Mango · Watermelon &amp; Mint – served chilled</div>
+        <div class="item-tags"><span class="tag veg">Non-Alcoholic</span></div>
+      </div>
+      <div class="item-price">R 45</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Specialty Coffee</div>
+        <div class="item-desc">Cappuccino · Flat White · Cortado – single-origin Kenyan beans</div>
+        <div class="item-tags"><span class="tag veg">Non-Alcoholic</span></div>
+      </div>
+      <div class="item-price">R 40</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ══════════════════════════════════════
+     DESSERTS
+═══════════════════════════════════════ -->
+<section id="desserts" class="menu-section">
+  <div class="section-header">
+    <span class="section-icon">🍮</span>
+    <div>
+      <h2 class="section-title">Desserts</h2>
+      <p class="section-desc">Sweet endings worth saving room for</p>
+    </div>
+  </div>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Malva Pudding</div>
+        <div class="item-desc">Warm South African classic with apricot jam sauce &amp; vanilla custard</div>
+        <div class="item-tags"><span class="tag chef">Chef's Pick</span><span class="tag veg">Vegetarian</span></div>
+      </div>
+      <div class="item-price">R 85</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Dark Chocolate Fondant</div>
+        <div class="item-desc">Molten centre, salted caramel ice cream &amp; cocoa dust – allow 12 min</div>
+        <div class="item-tags"><span class="tag veg">Vegetarian</span></div>
+      </div>
+      <div class="item-price">R 100</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Crème Brûlée</div>
+        <div class="item-desc">Vanilla bean custard, caramelised sugar crust &amp; seasonal berry compote</div>
+        <div class="item-tags"><span class="tag chef">Chef's Pick</span></div>
+      </div>
+      <div class="item-price">R 95</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Cheese Board</div>
+        <div class="item-desc">Selection of three local cheeses, fig preserve, walnuts &amp; seed crackers</div>
+        <div class="item-tags"></div>
+      </div>
+      <div class="item-price">R 120</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="item-info">
+        <div class="item-name">Mango Sorbet</div>
+        <div class="item-desc">Dairy-free, three scoops of house-made mango sorbet with a coconut wafer</div>
+        <div class="item-tags"><span class="tag veg">Vegan</span></div>
+      </div>
+      <div class="item-price">R 70</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>All prices include VAT &nbsp;·&nbsp; <span>Allergen info available on request</span></p>
+  <p style="margin-top:10px;">© 2026 The Grand Table &nbsp;·&nbsp; Durban, KwaZulu-Natal</p>
+</footer>
+
+<script>
+  // Highlight active nav button based on scroll position
+  const sections = ['starters', 'main-courses', 'beverages', 'desserts'];
+  const navBtns  = document.querySelectorAll('.nav-btn');
+
+  function setActive(id) {
+    navBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('href') === '#' + id);
+    });
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) setActive(entry.target.id);
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
